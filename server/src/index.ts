@@ -7,12 +7,13 @@ import UserRoutes from './routes/UserRoutes';
 
 const port = 8000;
 
-const app = express();
-dotenv.config();
+const app:Application = express();
 app.use(cors());
 app.use(express.json());
 
+dotenv.config();
 
+connectDB();
 
 // Default
 app.get("/api", (req: Request, res: Response) =>  {

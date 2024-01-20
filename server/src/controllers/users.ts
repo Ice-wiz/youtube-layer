@@ -15,7 +15,7 @@ export const getAllUsers = asyncHandler(async (req: Request, res: Response) => {
 export const signup = asyncHandler(async (req: any, res: any) => {
   const { username, email, password, role } = req.body;
 
-  const existingUser = await User.findOne(email);
+  const existingUser = await User.findOne({email});
   if (existingUser) {
     return res.status(409).json({ message: "Email already exists" });
   }
