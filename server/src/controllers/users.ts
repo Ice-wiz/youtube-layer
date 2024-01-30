@@ -12,6 +12,24 @@ export const getAllUsers = asyncHandler(async (req: Request, res: Response) => {
   });
 });
 
+export const getAllYoutubers = asyncHandler(async (req: Request, res: Response) => {
+  const youtubers = await User.find({role:'youtuber'}).select("-password");
+  res.status(201).json({
+    success: true,
+    count: youtubers.length,
+    youtubers,
+  });
+});
+
+export const getAllEditors = asyncHandler(async (req: Request, res: Response) => {
+  const editors = await User.find({role:'editor'}).select("-password");
+  res.status(201).json({
+    success: true,
+    count: editors.length,
+    editors,
+  });
+});
+
 export const signup = asyncHandler(async (req: any, res: any) => {
   const { username, email, password, role } = req.body;
 
@@ -35,7 +53,7 @@ export const signup = asyncHandler(async (req: any, res: any) => {
       email: newUser.email,
       username: newUser.username,
       role: newUser.role,
-      token: generateToken(newUser._id, newUser.username, newUser.role),
+      token: generateToken(newUser._id, newUser.email, newUser.role , newUser.username),
     },
   });
 });
@@ -56,7 +74,7 @@ export const login = asyncHandler(async (req: Request, res: Response) => {
         id: user._id,
         email: user.email,
         username: email.username,
-        token: generateToken(user._id, user.username, user.role),
+        token: generateToken(user._id,user.email, user.username, user.role),
       },
     });
   } else {
